@@ -1,15 +1,14 @@
 provider "aws" {
    region = "eu-west-1"
 }
-
-data "terraform_remote_state" "network" {
-  backend = "s3"
-  config = {
-    bucket = "javad-j-bucket"
-    key    = "network/terraform.tfstate"
-    region = "eu-west-1"
-  }
+terraform {
+   backend "s3" {
+      bucket = "javad-j-bucket"  
+      key    = "gitaction/terraform.tfstate"
+      region = "eu-west-1"
+   }
 }
+
 
 resource "aws_vpc" "main" {
   cidr_block       = "10.0.0.0/16"
