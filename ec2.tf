@@ -12,7 +12,7 @@ resource "aws_instance" "db" {
   depends_on = [
     aws_nat_gateway.main-natgw
   ]
-  key_name      = "${aws_key_pair.my-key.key_name}"
+  
   subnet_id = aws_subnet.public_subnet.id
   associate_public_ip_address = true
   instance_type = "t3.micro"
@@ -48,7 +48,7 @@ resource "aws_instance" "app" {
   depends_on = [
     aws_instance.db
   ]
-  key_name      = "${aws_key_pair.my-key.key_name}"
+  
   user_data = <<EOF
 #!/bin/bash
 apt update && apt install default-jre -y && apt install maven -y 
@@ -66,8 +66,4 @@ EOF
 
 
 
-resource "aws_key_pair" "my-key" {
-	key_name = "terrakey"
-	public_key = file("~/.ssh/id_rsa.pub")
-}
 
